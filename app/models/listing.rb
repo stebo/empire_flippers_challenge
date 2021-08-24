@@ -3,6 +3,8 @@ class Listing < ApplicationRecord
 
   store_accessor :remote_data, :listing_number, :listing_price, :summary
   
+  scope :for_sale, -> { where("remote_data->>'listing_status' = ?", "For Sale") }
+
   def self.latest_by_remote_created_at
     Listing.order(Arel.sql("(remote_data ->> 'created_at')::timestamp with time zone DESC")).first
   end
@@ -35,5 +37,24 @@ class Listing < ApplicationRecord
       sleep(1) # comply with Empire Flipper API guidelines, no more than 1 request per second
     end
   end
-end
 
+  def create_as_hubspot_deal
+    return if hubspot_deal_id
+
+    begin
+      response = 
+        Hubspot::Crm::Deals::BasicApi.new.create(
+          properties: {
+            dealname: "Listing #{listing_number}",
+            amount: listing_price,
+            closedate: 30.days.from_now, # "Close Date: 30 days from the current time" does that make sense?
+            description: summary
+          }
+        )
+      update(hubspot_deal_id: response.id)
+    rescue Hubspot::Crm::Deals::ApiError
+      false
+      # TODO: do some kind of error logging or force re-try of create
+    end    
+  end
+end

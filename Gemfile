@@ -30,6 +30,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'pry-rails' # nice console
 gem 'httparty' # api helper
+gem 'hubspot-api-client' # hubspot API client
+gem 'sidekiq-scheduler' # scheduling background jobs
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
