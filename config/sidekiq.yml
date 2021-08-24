@@ -1,0 +1,5 @@
+:schedule:
+  FetchAndUpserListingsJob:
+    cron: '0 3 * * *' # Runs every day at 03:00
+  CreateHubspotDealsJob:
+    cron: '0 4 * * *' # Runs every day at 04:00
