@@ -3,10 +3,12 @@ class EmpireFlippersAPI
   base_uri 'https://api.empireflippers.com/api/v1'
 
   def capture_response(response)
-    if response["errors"].blank?
-      response
-    else
-      false
+    # TODO: proper error handling
+    case response.code
+      when 200
+        response['data']
+      else
+        false
     end
   end
 
@@ -14,6 +16,6 @@ class EmpireFlippersAPI
   # https://empireflippers.com/empire-flippers-public-listings-api/
   def listings(**kwargs)
     options = { query: kwargs }
-    capture_response(self.class.get("/listings/list", options)['data'])
+    capture_response(self.class.get("/listings/list", options))
   end
 end

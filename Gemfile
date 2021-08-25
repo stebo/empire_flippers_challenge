@@ -29,6 +29,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'pry-rails' # nice console
+gem 'pry' # for debugging
 gem 'httparty' # api helper
 gem 'hubspot-api-client' # hubspot API client
 gem 'sidekiq-scheduler' # scheduling background jobs
@@ -55,6 +56,7 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
